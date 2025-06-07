@@ -59,9 +59,7 @@ export default function InspirationScreen() {
     if (!quote) return;
 
     try {
-      if (Platform.OS !== 'web') {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      }
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       
       // In a real app, we would use the Share API
       alert(`Sharing: "${quote.text}" - ${quote.author}`);
@@ -86,7 +84,7 @@ export default function InspirationScreen() {
         
         <View style={[styles.quoteCard, { backgroundColor: isDark ? 'rgba(30, 30, 30, 0.8)' : 'rgba(255, 255, 255, 0.9)' }]}>
           {loading ? (
-            <ActivityIndicator size="large\" color={COLORS.primary} />
+            <ActivityIndicator size="large" color={COLORS.primary} />
           ) : (
             <>
               <Text style={[styles.quoteText, { color: isDark ? COLORS.white : COLORS.black }]}>

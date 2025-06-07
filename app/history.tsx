@@ -103,8 +103,8 @@ export default function HistoryScreen() {
   };
 
   const handleEditEntry = (entry: JournalEntry) => {
-    // Navigation to edit screen would go here
-    Alert.alert('Edit Entry', 'This feature is coming soon!');
+    // Navigate to the add-journal-entry screen with the entry id for editing
+    router.push({ pathname: '/add-journal-entry', params: { id: entry.id } });
   };
 
   const handleDeleteEntry = async (entryId: string) => {
@@ -120,6 +120,10 @@ export default function HistoryScreen() {
             try {
               await deleteJournalEntry(entryId);
               await loadEntries(); // Reload entries after deletion
+              // If a date is selected, re-filter for that date
+              if (selectedDate) {
+                filterEntriesByDate(selectedDate);
+              }
             } catch (error) {
               console.error('Failed to delete journal entry:', error);
               Alert.alert('Error', 'Failed to delete the journal entry.');
@@ -131,19 +135,19 @@ export default function HistoryScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: isDark ? COLORS.darkBg : COLORS.white }]}>
+    <View style={styles.container}>
       <CalendarComponent
         theme={{
-          calendarBackground: isDark ? COLORS.gray[900] : COLORS.white,
-          textSectionTitleColor: isDark ? COLORS.gray[300] : COLORS.gray[700],
-          selectedDayBackgroundColor: COLORS.primary,
-          selectedDayTextColor: COLORS.white,
-          todayTextColor: COLORS.primary,
-          dayTextColor: isDark ? COLORS.gray[300] : COLORS.gray[700],
-          textDisabledColor: isDark ? COLORS.gray[700] : COLORS.gray[400],
-          dotColor: COLORS.primary,
-          monthTextColor: isDark ? COLORS.white : COLORS.black,
-          arrowColor: COLORS.primary,
+          calendarBackground: COLORS.hyggeBackground,
+          textSectionTitleColor: COLORS.hyggeText,
+          selectedDayBackgroundColor: COLORS.hyggePrimary,
+          selectedDayTextColor: COLORS.hyggeText,
+          todayTextColor: COLORS.hyggePrimary,
+          dayTextColor: COLORS.hyggeText,
+          textDisabledColor: '#bdbdbd',
+          dotColor: COLORS.hyggePrimary,
+          monthTextColor: COLORS.hyggeText,
+          arrowColor: COLORS.hyggePrimary,
         }}
         markedDates={{
           ...markedDates,
@@ -158,10 +162,9 @@ export default function HistoryScreen() {
         onDayPress={handleDateSelect}
         hideExtraDays
       />
-      
       {selectedDate && (
         <View style={styles.filterInfo}>
-          <Text style={[styles.filterText, { color: isDark ? COLORS.gray[300] : COLORS.gray[700] }]}>
+          <Text style={styles.filterText}>
             Showing entries for: {format(new Date(selectedDate), 'MMMM d, yyyy')}
           </Text>
           <TouchableOpacity onPress={handleClearFilter} style={styles.clearFilterButton}>
@@ -169,10 +172,9 @@ export default function HistoryScreen() {
           </TouchableOpacity>
         </View>
       )}
-      
       {filteredEntries.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Text style={[styles.emptyText, { color: isDark ? COLORS.gray[400] : COLORS.gray[600] }]}>
+          <Text style={styles.emptyText}>
             {selectedDate 
               ? 'No journal entries for this date.' 
               : 'You haven\'t created any journal entries yet.'}
@@ -200,6 +202,7 @@ export default function HistoryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.hyggeBackground,
   },
   filterInfo: {
     flexDirection: 'row',
@@ -207,18 +210,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: COLORS.hyggeLightBg,
+    borderRadius: 12,
+    marginVertical: 8,
   },
   filterText: {
     fontFamily: FONTS.medium,
     fontSize: FONT_SIZES.sm,
+    color: COLORS.hyggeText,
   },
   clearFilterButton: {
     padding: SPACING.xs,
+    backgroundColor: COLORS.hyggePrimary,
+    borderRadius: 8,
   },
   clearFilterText: {
-    color: COLORS.primary,
+    color: COLORS.hyggeText,
     fontFamily: FONTS.medium,
     fontSize: FONT_SIZES.sm,
   },
@@ -235,5 +242,6 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     fontSize: FONT_SIZES.md,
     textAlign: 'center',
+    color: COLORS.hyggeText,
   },
 });

@@ -22,7 +22,7 @@ export default function LoginScreen() {
       return;
     }
     setError('');
-    router.replace('/inspiration');
+    router.replace('/inspiration'); // Navigate to the main journaling screen
   };
 
   return (

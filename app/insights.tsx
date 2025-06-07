@@ -6,7 +6,6 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-  useColorScheme,
 } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { LineChart } from 'react-native-chart-kit';
@@ -21,9 +20,6 @@ import FloatingMenuBar from '../components/FloatingMenuBar';
 type TimeRange = '7days' | '30days' | '90days' | 'all';
 
 export default function InsightsScreen() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-  
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [timeRange, setTimeRange] = useState<TimeRange>('30days');
   const [loading, setLoading] = useState(true);
@@ -94,9 +90,9 @@ export default function InsightsScreen() {
 
   if (loading) {
     return (
-      <View style={[styles.loadingContainer, { backgroundColor: isDark ? COLORS.darkBg : COLORS.white }]}> 
-        <ActivityIndicator size="large" color={COLORS.primary} />
-        <Text style={[styles.loadingText, { color: isDark ? COLORS.gray[300] : COLORS.gray[700] }]}>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={COLORS.hyggePrimary} />
+        <Text style={styles.loadingText}>
           Analyzing your journal entries...
         </Text>
         <FloatingMenuBar />
@@ -105,126 +101,79 @@ export default function InsightsScreen() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: isDark ? COLORS.darkBg : COLORS.white }]}> 
-      <ScrollView 
-        contentContainerStyle={styles.contentContainer}
-      >
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         {/* Time range selector */}
         <View style={styles.timeRangeContainer}>
-          <Text style={[styles.sectionTitle, { color: isDark ? COLORS.white : COLORS.black }]}>
-            Time Range
-          </Text>
+          <Text style={styles.sectionTitle}>Time Range</Text>
           <View style={styles.timeRangeButtons}>
             <TouchableOpacity
-              style={[
-                styles.timeButton,
-                timeRange === '7days' && styles.activeTimeButton,
-                { backgroundColor: isDark ? COLORS.gray[800] : COLORS.gray[200] }
-              ]}
+              style={[styles.timeButton, timeRange === '7days' && styles.activeTimeButton]}
               onPress={() => setTimeRange('7days')}
             >
-              <Text style={[
-                styles.timeButtonText, 
-                timeRange === '7days' && styles.activeTimeButtonText,
-                { color: isDark ? COLORS.gray[300] : COLORS.gray[700] }
-              ]}>
-                7 Days
-              </Text>
+              <Text style={[styles.timeButtonText, timeRange === '7days' && styles.activeTimeButtonText]}>7 Days</Text>
             </TouchableOpacity>
-            
             <TouchableOpacity
-              style={[
-                styles.timeButton,
-                timeRange === '30days' && styles.activeTimeButton,
-                { backgroundColor: isDark ? COLORS.gray[800] : COLORS.gray[200] }
-              ]}
+              style={[styles.timeButton, timeRange === '30days' && styles.activeTimeButton]}
               onPress={() => setTimeRange('30days')}
             >
-              <Text style={[
-                styles.timeButtonText,
-                timeRange === '30days' && styles.activeTimeButtonText,
-                { color: isDark ? COLORS.gray[300] : COLORS.gray[700] }
-              ]}>
-                30 Days
-              </Text>
+              <Text style={[styles.timeButtonText, timeRange === '30days' && styles.activeTimeButtonText]}>30 Days</Text>
             </TouchableOpacity>
-            
             <TouchableOpacity
-              style={[
-                styles.timeButton,
-                timeRange === '90days' && styles.activeTimeButton,
-                { backgroundColor: isDark ? COLORS.gray[800] : COLORS.gray[200] }
-              ]}
+              style={[styles.timeButton, timeRange === '90days' && styles.activeTimeButton]}
               onPress={() => setTimeRange('90days')}
             >
-              <Text style={[
-                styles.timeButtonText,
-                timeRange === '90days' && styles.activeTimeButtonText,
-                { color: isDark ? COLORS.gray[300] : COLORS.gray[700] }
-              ]}>
-                90 Days
-              </Text>
+              <Text style={[styles.timeButtonText, timeRange === '90days' && styles.activeTimeButtonText]}>90 Days</Text>
             </TouchableOpacity>
-            
             <TouchableOpacity
-              style={[
-                styles.timeButton,
-                timeRange === 'all' && styles.activeTimeButton,
-                { backgroundColor: isDark ? COLORS.gray[800] : COLORS.gray[200] }
-              ]}
+              style={[styles.timeButton, timeRange === 'all' && styles.activeTimeButton]}
               onPress={() => setTimeRange('all')}
             >
-              <Text style={[
-                styles.timeButtonText,
-                timeRange === 'all' && styles.activeTimeButtonText,
-                { color: isDark ? COLORS.gray[300] : COLORS.gray[700] }
-              ]}>
-                All Time
-              </Text>
+              <Text style={[styles.timeButtonText, timeRange === 'all' && styles.activeTimeButtonText]}>All Time</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {entries.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <Text style={[styles.emptyText, { color: isDark ? COLORS.gray[400] : COLORS.gray[600] }]}>
+            <Text style={styles.emptyText}>
               No journal entries to analyze. Start journaling to see insights.
             </Text>
           </View>
         ) : (
           <>
             {/* Mood distribution */}
-            <View style={[styles.card, { backgroundColor: isDark ? COLORS.gray[900] : COLORS.white }]}>
-              <Text style={[styles.sectionTitle, { color: isDark ? COLORS.white : COLORS.black }]}>
+            <View style={[styles.card, { backgroundColor: COLORS.hyggeLightBg }]}>
+              <Text style={styles.sectionTitle}>
                 Mood Distribution
               </Text>
               <View style={styles.moodStatsContainer}>
                 <View style={styles.moodStat}>
                   <View style={[styles.moodIndicator, { backgroundColor: COLORS.success }]} />
-                  <Text style={[styles.moodStatLabel, { color: isDark ? COLORS.gray[300] : COLORS.gray[700] }]}>
+                  <Text style={styles.moodStatLabel}>
                     Positive
                   </Text>
-                  <Text style={[styles.moodStatValue, { color: isDark ? COLORS.white : COLORS.black }]}>
+                  <Text style={styles.moodStatValue}>
                     {insights?.positiveCount || 0}
                   </Text>
                 </View>
                 
                 <View style={styles.moodStat}>
                   <View style={[styles.moodIndicator, { backgroundColor: COLORS.warning }]} />
-                  <Text style={[styles.moodStatLabel, { color: isDark ? COLORS.gray[300] : COLORS.gray[700] }]}>
+                  <Text style={styles.moodStatLabel}>
                     Neutral
                   </Text>
-                  <Text style={[styles.moodStatValue, { color: isDark ? COLORS.white : COLORS.black }]}>
+                  <Text style={styles.moodStatValue}>
                     {insights?.neutralCount || 0}
                   </Text>
                 </View>
                 
                 <View style={styles.moodStat}>
                   <View style={[styles.moodIndicator, { backgroundColor: COLORS.error }]} />
-                  <Text style={[styles.moodStatLabel, { color: isDark ? COLORS.gray[300] : COLORS.gray[700] }]}>
+                  <Text style={styles.moodStatLabel}>
                     Negative
                   </Text>
-                  <Text style={[styles.moodStatValue, { color: isDark ? COLORS.white : COLORS.black }]}>
+                  <Text style={styles.moodStatValue}>
                     {insights?.negativeCount || 0}
                   </Text>
                 </View>
@@ -233,8 +182,8 @@ export default function InsightsScreen() {
 
             {/* Mood over time chart */}
             {insights?.moodOverTime && insights.moodOverTime.labels.length > 0 && (
-              <View style={[styles.card, { backgroundColor: isDark ? COLORS.gray[900] : COLORS.white }]}>
-                <Text style={[styles.sectionTitle, { color: isDark ? COLORS.white : COLORS.black }]}>
+              <View style={[styles.card, { backgroundColor: COLORS.hyggeLightBg }]}>
+                <Text style={styles.sectionTitle}>
                   Mood Trends
                 </Text>
                 <View style={styles.chartContainer}>
@@ -243,11 +192,11 @@ export default function InsightsScreen() {
                     width={300}
                     height={220}
                     chartConfig={{
-                      backgroundGradientFrom: isDark ? COLORS.gray[800] : COLORS.white,
-                      backgroundGradientTo: isDark ? COLORS.gray[900] : COLORS.gray[100],
+                      backgroundGradientFrom: COLORS.hyggeLightBg,
+                      backgroundGradientTo: COLORS.hyggeLightBg,
                       decimalPlaces: 0,
                       color: (opacity = 1) => `rgba(74, 111, 165, ${opacity})`,
-                      labelColor: (opacity = 1) => isDark ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`,
+                      labelColor: (opacity = 1) => COLORS.hyggeText,
                       style: {
                         borderRadius: 16,
                       },
@@ -273,17 +222,17 @@ export default function InsightsScreen() {
 
             {/* Common words */}
             {insights?.commonWords && insights.commonWords.length > 0 && (
-              <View style={[styles.card, { backgroundColor: isDark ? COLORS.gray[900] : COLORS.white }]}>
-                <Text style={[styles.sectionTitle, { color: isDark ? COLORS.white : COLORS.black }]}>
+              <View style={[styles.card, { backgroundColor: COLORS.hyggeLightBg }]}>
+                <Text style={styles.sectionTitle}>
                   Common Words
                 </Text>
                 <View style={styles.commonWordsContainer}>
                   {insights.commonWords.slice(0, 10).map((item, index) => (
                     <View key={index} style={styles.wordItem}>
-                      <Text style={[styles.word, { color: isDark ? COLORS.white : COLORS.black }]}>
+                      <Text style={styles.word}>
                         {item.word}
                       </Text>
-                      <Text style={[styles.wordCount, { color: isDark ? COLORS.gray[400] : COLORS.gray[600] }]}>
+                      <Text style={styles.wordCount}>
                         {item.count}
                       </Text>
                     </View>
@@ -311,6 +260,7 @@ export default function InsightsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.hyggeBackground,
   },
   contentContainer: {
     padding: SPACING.md,
@@ -319,11 +269,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: COLORS.hyggeBackground,
   },
   loadingText: {
     fontFamily: FONTS.medium,
     fontSize: FONT_SIZES.md,
     marginTop: SPACING.md,
+    color: COLORS.hyggeText,
   },
   timeRangeContainer: {
     marginBottom: SPACING.md,
@@ -337,28 +289,32 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.sm,
     paddingHorizontal: SPACING.sm,
     borderRadius: BORDER_RADIUS.sm,
+    backgroundColor: COLORS.hyggeLightBg,
   },
   activeTimeButton: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.hyggePrimary,
   },
   timeButtonText: {
     fontFamily: FONTS.medium,
     fontSize: FONT_SIZES.xs,
     textAlign: 'center',
+    color: COLORS.hyggeText,
   },
   activeTimeButtonText: {
-    color: COLORS.white,
+    color: COLORS.hyggeText,
   },
   card: {
     borderRadius: BORDER_RADIUS.lg,
     padding: SPACING.lg,
     marginBottom: SPACING.md,
     ...SHADOWS.medium,
+    backgroundColor: COLORS.hyggeLightBg,
   },
   sectionTitle: {
     fontFamily: FONTS.bold,
     fontSize: FONT_SIZES.lg,
     marginBottom: SPACING.md,
+    color: COLORS.hyggeText,
   },
   moodStatsContainer: {
     flexDirection: 'row',
@@ -378,10 +334,12 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     fontSize: FONT_SIZES.sm,
     marginBottom: SPACING.xs,
+    color: COLORS.hyggeText,
   },
   moodStatValue: {
     fontFamily: FONTS.bold,
     fontSize: FONT_SIZES.xl,
+    color: COLORS.hyggeText,
   },
   chartContainer: {
     alignItems: 'center',
@@ -389,7 +347,7 @@ const styles = StyleSheet.create({
   chartNote: {
     fontFamily: FONTS.regular,
     fontSize: FONT_SIZES.xs,
-    color: COLORS.gray[500],
+    color: COLORS.hyggeText,
     textAlign: 'center',
     marginTop: SPACING.xs,
   },
@@ -404,15 +362,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: SPACING.sm,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0,0,0,0.1)',
+    borderBottomColor: COLORS.hyggePrimary,
   },
   word: {
     fontFamily: FONTS.medium,
     fontSize: FONT_SIZES.md,
+    color: COLORS.hyggeText,
   },
   wordCount: {
     fontFamily: FONTS.regular,
     fontSize: FONT_SIZES.md,
+    color: COLORS.hyggeText,
   },
   emptyContainer: {
     padding: SPACING.xl,
@@ -423,9 +383,10 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     fontSize: FONT_SIZES.md,
     textAlign: 'center',
+    color: COLORS.hyggeText,
   },
   refreshButton: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.hyggePrimary,
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.md,
     flexDirection: 'row',
@@ -434,7 +395,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.md,
   },
   refreshButtonText: {
-    color: COLORS.white,
+    color: COLORS.hyggeText,
     fontFamily: FONTS.medium,
     fontSize: FONT_SIZES.md,
     marginLeft: SPACING.sm,
