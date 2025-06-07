@@ -105,3 +105,10 @@ This app adheres to **Jakob Nielsen’s 10 Usability Heuristics**:
 - Aesthetic and minimalist design
 - Help users recognize, diagnose, and recover from errors
 - Help and documentation
+
+![image](https://github.com/user-attachments/assets/22e47c02-d151-4a17-b8b4-94835021623e)
+![image](https://github.com/user-attachments/assets/898d0afa-18d2-40bb-a23c-861a85a2f9b8)
+![image](https://github.com/user-attachments/assets/a8571bb1-23ed-475f-8fc3-c2b9664a4f5c)
+
+
+
