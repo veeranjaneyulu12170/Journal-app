@@ -106,6 +106,15 @@ This app adheres to **Jakob Nielsen’s 10 Usability Heuristics**:
 - Help users recognize, diagnose, and recover from errors
 - Help and documentation
 
+- ![image](https://github.com/user-attachments/assets/cbeb5a04-46ce-4aab-b986-1b4459c3e542)
+-
+- ![image](https://github.com/user-attachments/assets/06b24812-f56b-4e3d-acc9-683f56f75f1c)
+
+- ![image](https://github.com/user-attachments/assets/214294f2-1c1c-4109-a9be-eac80339ae22)
+
+
+
+
 ![image](https://github.com/user-attachments/assets/22e47c02-d151-4a17-b8b4-94835021623e)
 ![image](https://github.com/user-attachments/assets/898d0afa-18d2-40bb-a23c-861a85a2f9b8)
 ![image](https://github.com/user-attachments/assets/a8571bb1-23ed-475f-8fc3-c2b9664a4f5c)
